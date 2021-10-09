@@ -1,7 +1,36 @@
 const express = require('express')
 const app = express();
+const mongoose = require('mongoose');
+const authRoutes = require('./routes/auth');
+const dataBaseURL =`mongodb+srv://asfar:101021@cluster0.mnphf.mongodb.net/health-clinic`;
 
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
+ app.use(authRoutes);
 
 
-app.listen(8080)
+app.use((error,req,res,next)=>{
+    const status = error.statusCode || 500;
+    const message = error.message || "Something went wrong";
+    res.status(status).jason({
+        message: message
+    })
+}); 
+
+
+mongoose.connect(dataBaseURL)
+.then(res=>{
+ 
+    app.listen(8080);
+})
+.catch(err=>{
+    console.log(err)
+})

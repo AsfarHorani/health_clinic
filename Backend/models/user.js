@@ -1,22 +1,29 @@
-const db = require('../util/database')
- class User {
-constructor(email,password,type,status=false){
-    this.email = email;
-    this.password = password;
-    this.type = type;
-    this.status = status;
-}
+const mongoose= require('mongoose');
+const Schema = mongoose.Schema;
 
-
-save(){
+const userSchema = new Schema({
   
-    return db.excecute('INSERT INTO users (email, password,type,status) valuse(?,?,?,?)',
-    [this.email,this.password,this.type,this.status])
-
-}
+    email: {
+        type: String,
+        req: true
+    },
+    password:{
+        type: String,
+        req: true
+       
+    },
+    type:{
+        type: String,
+        req: true
+    },
+    status:{
+            type: Boolean,
+            req: true
+            
+    }
+   
     
-}
 
-module.exports = User;
+})
 
-
+module.exports= mongoose.model('Admin', userSchema)
