@@ -5,8 +5,8 @@
     
     text-decoration: none;
     font: inherit;
-    border: 1px solid #00695c;
-    color: #00695c;
+    border: 1px solid #69001a;
+    color: #69001a;
     background: white;
     border-radius: 3px;
     cursor: pointer;
@@ -14,7 +14,7 @@
   
   .Btn:hover,
   .Btn:active {
-    background-color: #00695c;
+    background-color: #69001a;
     color: white;
   }
   
@@ -29,3 +29,43 @@
     background: red;
     color: white;
   }
+
+ input,
+ select {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+ margin-bottom: 10px;
+  box-sizing: border-box;
+
+}
+
+
+.InputElement textarea {
+  height: 100px;
+  max-width: 100%;
+  resize: none;
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+ 
+  
+  box-sizing: border-box;
+}
+
+
+input:focus {
+  outline: none;
+  background-color: #ccc;
+}
+
+

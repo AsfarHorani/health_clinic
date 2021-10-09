@@ -2,7 +2,10 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
+const bodyParser = require('body-parser');
 const dataBaseURL =`mongodb+srv://asfar:101021@cluster0.mnphf.mongodb.net/health-clinic`;
+
+app.use(bodyParser.json());
 
 
 app.use((req, res, next) => {
@@ -20,7 +23,8 @@ app.use((req, res, next) => {
 app.use((error,req,res,next)=>{
     const status = error.statusCode || 500;
     const message = error.message || "Something went wrong";
-    res.status(status).jason({
+   
+    res.status(status).json({
         message: message
     })
 }); 
