@@ -19,7 +19,7 @@ componentDidMount(){
             
               <Switch>
               <Route path="/my-patients"  exact render={()=><Patients  />} />   
-              <Route path="/active-doctors" exact render={()=><Doctors  />} />  
+              <Route path="/active-doctors" selectDocHandler={this.props.selectDocHandler} exact render={()=><Doctors  />} />  
               {/* <Route path="/my-prescriptions" exact render={()=><patientsDB  />}/>    */}
               </Switch>
               </Fragment>

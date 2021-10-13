@@ -6,8 +6,8 @@ const appointmentSchema = new Schema({
     userId:{
        
           req: true,
-          type: Schema.Types.ObjectId, 
-          ref: 'User' 
+          type: String, 
+      
     },
     doctId: {
       

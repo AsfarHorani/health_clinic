@@ -24,11 +24,11 @@ class App extends Component {
     message:{
       type: "token",
       title: "Enter token",
-      content: ""
+ 
 
     },
     docId: null,
-    patientId: null
+   
 
   }
 
@@ -183,6 +183,13 @@ class App extends Component {
  showMdoal=(m)=>{
    this.setState({showBackdrop: true, message: m})
  }
+
+selectDocHandler=(dId)=>{
+  this.setState({ docId: dId, patientId: emailId}) 
+  
+  this.showMdoal({ message : {...this.state.message ,type:"appointment", title:"Get an appointment"} });
+}
+
   render(){
   return (
     <div className="App">
@@ -209,7 +216,7 @@ class App extends Component {
       <Switch>
        <Route path="/signup" exact render={()=><Signup clickSignUp={this.signupHandler}/>} /> 
        <Route path="/login" exact render={()=><Login clickLogin={this.loginHandler}/>} /> 
-       <Route path="/" render={()=><Body showMdoal={this.showMdoal}/>} /> 
+       <Route path="/" render={()=><Body  selectDocHandler={this.selectDocHandler}/>} /> 
      </Switch>
      </Router>
    </Fragment>
