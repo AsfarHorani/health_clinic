@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
+
+
 exports.signup = (req,res,next)=>{
     console.log(req.body)
      const email = req.body.email;
@@ -34,19 +35,20 @@ exports.signup = (req,res,next)=>{
 
 }
 
-
 exports.login=(req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
+    let loadedUser;
    User.findOne({email:email})
    .then((user)=>{
+       console.log(user)
        if (!user)
        {
            const error = new Error("user doesn't exists");
            error.statusCode = 401;
            throw error;
        }
-       let loadedUser;
+      
        loadedUser = user;
 
        return bcrypt.compare(password , user.password)
@@ -59,24 +61,45 @@ exports.login=(req,res,next)=>{
         throw error;
 
        }
+       let token=null;
+       if(loadedUser.type==='patient')
+       {
+         token = jwt.sign({
+            email: loadedUser .email,
+            status: loadedUser .status,
+          },'patient', {expiresIn: '1h'})
 
-       const token = jwt.sign({
-           email: user.email,
-           status: user.status
-       })
-   },'secret', {expiresIn: '1h'})
+       } else if(loadedUser.type==='doctor')
+       {
+        token = jwt.sign({
+            email: loadedUser .email,
+            status: loadedUser .status
+          },'doctor', {expiresIn: '1h'})
+
+       } else if(loadedUser.type==='admin')
+       {
+        token = jwt.sign({
+            email: loadedUser .email,
+            status: loadedUser .status
+          },'admin', {expiresIn: '1h'})
+
+       }
+       
 
 
    res.status(200).json({
        token: token,
        message: "login success",
-       email: user.email
+       email: loadedUser .email,
+       userType: loadedUser.type
    })
-   .catch(err=>{     
-       console.log(err)
-    if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-   })
+ 
+   })  .catch(err=>{     
+    console.log(err)
+ if (!err.statusCode) {
+     err.statusCode = 500;
+   }
+   next(err);
+})
+
 }

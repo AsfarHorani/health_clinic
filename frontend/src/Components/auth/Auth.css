@@ -9,7 +9,78 @@
     border-radius: 5px;
   }
   
-  @media (min-width: 768px) {
+.Btn {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  
+  text-decoration: none;
+  font: inherit;
+  border: 1px solid #69001a;
+  color: #69001a;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.Btn:hover,
+.Btn:active {
+  background-color: #69001a;
+  color: white;
+}
+
+
+.Btn.danger {
+  color: red;
+  border-color: red;
+}
+
+.Btn.danger:hover,
+.Btn.danger:active {
+  background: red;
+  color: white;
+}
+
+input,
+select {
+width: 100%;
+padding: 10px;
+box-sizing: border-box;
+outline: none;
+border: 1px solid #ccc;
+background-color: white;
+font: inherit;
+padding: 6px 10px;
+display: block;
+margin-bottom: 10px;
+box-sizing: border-box;
+
+}
+
+
+.InputElement textarea {
+height: 100px;
+max-width: 100%;
+resize: none;
+outline: none;
+border: 1px solid #ccc;
+background-color: white;
+font: inherit;
+padding: 6px 10px;
+display: block;
+
+
+box-sizing: border-box;
+}
+
+
+input:focus {
+outline: none;
+background-color: #ccc;
+}
+
+
+
+  @media (min-width: 500px) {
     .auth-form {
       width: 40rem;
       margin-top: 200px;   

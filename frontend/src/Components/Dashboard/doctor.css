@@ -1,0 +1,47 @@
+.doctors {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: black;
+    margin-top: 10%;
+  }
+  
+  .doctor h1 {
+      margin: 0;
+    
+  }
+
+  .doctor h3 {
+    margin: 0;
+  
+  
+}
+  .doctor {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+    font-size: auto;
+    margin-left: 10%;
+    margin-bottom: 1rem;
+  }
+  
+ 
+  
+    
+.Btn {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #69001a;
+    color: #69001a;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .Btn:hover,
+  .Btn:active {
+    background-color: #69001a;
+    color: white;
+  }
