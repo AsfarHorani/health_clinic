@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const Appt = require('../models/appointment');
 
 exports.getActiveDoctors=(req,res,next)=>{
     
@@ -26,6 +26,40 @@ exports.getActiveDoctors=(req,res,next)=>{
    }
    next(err);
 })
+}
+
+exports.postAppointment=(req,res,next)=>{
+  const userId = req.body.userId;
+  const docId= req.body.docId;
+  const date = req.body.date;
+  const time = req.body.time;
+  
+  const appt = new Appt({
+    userId: userId,
+    doctId : docId,
+    date: date,
+    time: time
+  })
+
+   return appt.save()
+   .then(appointment=>{
+    console.log(appointment)
+    res.status(200).json({
+        message:'post appointment successful',
+        appointment: appointment
+    })
+   })
+   .catch(err=>{
+    console.log(err)
+    if (!err.statusCode) {
+       err.statusCode = 500;
+     }
+     next(err);
+   })
+  
+  
+
+
 }
 
 

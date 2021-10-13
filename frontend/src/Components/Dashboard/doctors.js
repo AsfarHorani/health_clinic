@@ -31,7 +31,7 @@ const Doctors=(props)=>{
           
        </h3>
        <h3> Email: {doctor.email}</h3>
-       <button className="Btn">Get appointment</button>
+       <button className="Btn" >Get appointment</button>
          
        </li>
  

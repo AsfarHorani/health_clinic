@@ -21,7 +21,14 @@ class App extends Component {
     isAuth: false,
     emailId: null,
     showBackdrop: false,
-    message: "asdsadsad"
+    message:{
+      type: "token",
+      title: "Enter token",
+      content: ""
+
+    },
+    docId: null,
+    patientId: null
 
   }
 
@@ -137,10 +144,45 @@ class App extends Component {
   };
 
 
-  submitTokenHandler=()=>{
-    this.setState({showBackdrop: false, message: null})
+  setAppointmenthandler=(time,date)=>{
+    console.log(time,date)
+    fetch("http://localhost:8080/postAppointment",{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+  
+        time: time,
+        data: date,
+        docId: this.state.docId,
+        patientId: this.state.patientId
+  
+      })
+    }
+     ).then(res=>{
+      if(res.status!==200 && res.status!==201)
+      {
+        throw new Error('login user failed')
+      
+      }
+      return res.json();
+     }).then(resData=>{
+       console.log(resData)
+      this.setState({showBackdrop: false, message: null, docId: null, patientId: null})
+     }).catch(err=>{
+       console.log(err)
+     })
+    
   }
 
+  submitTokenHandler=(token)=>{
+  
+    this.setState({showBackdrop: false, message: null})
+  }
+ showMdoal=(m)=>{
+   this.setState({showBackdrop: true, message: m})
+ }
   render(){
   return (
     <div className="App">
@@ -152,20 +194,22 @@ class App extends Component {
    {this.state.message && (<Backdrop  />)}
           {this.state.message && (
             <Modal
-              title={this.state.message}
-              onAcceptModal={this.submitTokenHandler}
+            type={this.state.type}
+              title={this.state.message.title}
+              message={this.state.message}
+              onAcceptModal={ this.state.message.type==="token"?this.submitTokenHandler :this.setAppointmenthandler }
               acceptEnabled
             >
-              <p>{this.state.message}</p>
+              <p>{this.state.message.content}</p>
             </Modal>
           )}
-
+       
 
       <Router>
       <Switch>
        <Route path="/signup" exact render={()=><Signup clickSignUp={this.signupHandler}/>} /> 
        <Route path="/login" exact render={()=><Login clickLogin={this.loginHandler}/>} /> 
-       <Route path="/" render={()=><Body  type={this.state.type}/>} /> 
+       <Route path="/" render={()=><Body showMdoal={this.showMdoal}/>} /> 
      </Switch>
      </Router>
    </Fragment>

@@ -4,20 +4,30 @@ const Schema = mongoose.Schema;
 const appointmentSchema = new Schema({
 
     userId:{
-          type: String ,
+       
           req: true,
-          ref: user
+          type: Schema.Types.ObjectId, 
+          ref: 'User' 
     },
-    doctorsId: {
-        type: String ,
+    doctId: {
+      
         req: true,
-        ref: user
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
     },
     status:{
             type: String,
             req: true,
-            default: pending
+            default: "pending"
+    },
+    date: {
+        type: Date,
+        req: true
+    },
+    time: {
+        type: String,
+        req: true
     }
 })
 
-module.exports= mongoose.model('User', userSchema)
+module.exports= mongoose.model('Appointment', appointmentSchema)
