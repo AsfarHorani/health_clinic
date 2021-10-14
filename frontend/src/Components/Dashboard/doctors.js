@@ -6,7 +6,11 @@ const Doctors=(props)=>{
 
     useEffect(()=>{
         console.log("component rerender.. [doctor]")
-        fetch('http://localhost:8080/getActiveDoctors')
+        fetch('http://localhost:8080/getActiveDoctors',{
+            headers:{
+                Authorization: 'Bearer ' + props.token
+            }
+        })
         .then(res=>{
             if(res.status!==200 && res.status!==201)
             {

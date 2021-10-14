@@ -91,7 +91,8 @@ exports.login=(req,res,next)=>{
        token: token,
        message: "login success",
        email: loadedUser .email,
-       userType: loadedUser.type
+       userType: loadedUser.type,
+       userId: loadedUser._id
    })
  
    })  .catch(err=>{     

@@ -21,12 +21,8 @@ class App extends Component {
     isAuth: false,
     emailId: null,
     showBackdrop: false,
-    message:{
-      type: "token",
-      title: "Enter token",
- 
-
-    },
+    userId: null,
+    message:null,
     docId: null,
    
 
@@ -48,9 +44,11 @@ class App extends Component {
     }
   
   const emailId = localStorage.getItem('emailId');
+  const userId = localStorage.getItem('userId');
+  console.log(emailId)
   const userType = localStorage.getItem('userType');
   const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime();
-  this.setState({ isAuth: true, token: token, emailId: emailId , type: userType });
+  this.setState({ isAuth: true, token: token, emailId: emailId , type: userType, userId: userId  });
   this.setAutoLogout(remainingMilliseconds);
   }
 
@@ -111,7 +109,7 @@ class App extends Component {
       localStorage.setItem('token',resData.token);
       localStorage.setItem('emailId', resData.email);
       localStorage.setItem('userType', resData.userType);
-
+      localStorage.setItem('userId', resData.userId);
       
       const remainingMilliseconds = 60 * 60 * 1000;
       const expiryDate = new Date(
@@ -145,18 +143,21 @@ class App extends Component {
 
 
   setAppointmenthandler=(time,date)=>{
-    console.log(time,date)
+    let datStr = date.toString()
+  
     fetch("http://localhost:8080/postAppointment",{
       method: 'POST',
+   
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.state.token
       },
       body: JSON.stringify({
   
         time: time,
-        data: date,
+        date: datStr,
         docId: this.state.docId,
-        patientId: this.state.patientId
+        userId: this.state.userId
   
       })
     }
@@ -181,16 +182,20 @@ class App extends Component {
     this.setState({showBackdrop: false, message: null})
   }
  showMdoal=(m)=>{
+   console.log(m)
    this.setState({showBackdrop: true, message: m})
  }
 
 selectDocHandler=(dId)=>{
-  this.setState({ docId: dId, patientId: emailId}) 
-  
-  this.showMdoal({ message : {...this.state.message ,type:"appointment", title:"Get an appointment"} });
+  console.log(dId)
+  this.setState({ docId: dId, patientId: this.state.emailId}) 
+  this.showMdoal( {...this.state.message ,type:"appointment", title:"Get an appointment"} );
 }
 
+
+
   render(){
+    console.log(this.state);
   return (
     <div className="App">
 
@@ -216,7 +221,7 @@ selectDocHandler=(dId)=>{
       <Switch>
        <Route path="/signup" exact render={()=><Signup clickSignUp={this.signupHandler}/>} /> 
        <Route path="/login" exact render={()=><Login clickLogin={this.loginHandler}/>} /> 
-       <Route path="/" render={()=><Body  selectDocHandler={this.selectDocHandler}/>} /> 
+       <Route path="/" render={()=><Body type={this.state.type} token={this.state.token} userId={this.state.userId} selectDocHandler={this.selectDocHandler}/>} /> 
      </Switch>
      </Router>
    </Fragment>

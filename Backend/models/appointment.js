@@ -5,8 +5,9 @@ const appointmentSchema = new Schema({
 
     userId:{
        
-          req: true,
-          type: String, 
+        req: true,
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
       
     },
     doctId: {
@@ -21,8 +22,8 @@ const appointmentSchema = new Schema({
             default: "pending"
     },
     date: {
-        type: Date,
-        req: true
+       type: String,
+       req: true
     },
     time: {
         type: String,
