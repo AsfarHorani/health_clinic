@@ -4,6 +4,11 @@
     margin: 0;
     color: black;
     margin-top: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
   }
   
   .doctor h1 {
@@ -20,8 +25,9 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     padding: 1rem;
     font-size: auto;
-    margin-left: 10%;
+    margin-left: 5%;
     margin-bottom: 1rem;
+    
   }
   
  

@@ -133,7 +133,7 @@ class App extends Component {
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('emailId');
     console.log('Loggedout')
-    this.props.history.push('/login')
+ 
   }
   setAutoLogout = milliseconds => {
     setTimeout(() => {
@@ -221,7 +221,7 @@ selectDocHandler=(dId)=>{
       <Switch>
        <Route path="/signup" exact render={()=><Signup clickSignUp={this.signupHandler}/>} /> 
        <Route path="/login" exact render={()=><Login clickLogin={this.loginHandler}/>} /> 
-       <Route path="/" render={()=><Body type={this.state.type} token={this.state.token} userId={this.state.userId} selectDocHandler={this.selectDocHandler}/>} /> 
+       <Route path="/" render={()=><Body isAuth={this.state.isAuth} logout={this.logoutHandler} type={this.state.type} token={this.state.token} userId={this.state.userId} selectDocHandler={this.selectDocHandler}/>} /> 
      </Switch>
      </Router>
    </Fragment>

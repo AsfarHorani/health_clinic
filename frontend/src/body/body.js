@@ -16,13 +16,12 @@ componentDidMount(){
       return(
            
             <Fragment>
-             <Toolbar type={this.props.type}/>
+             <Toolbar isAuth={this.props.isAuth} logout={this.props.logout} type={this.props.type}/>
             
               <Switch>
               <Route path="/my-patients"  exact render={()=><Patients  />} />   
               <Route path="/active-doctors" exact render={()=><Doctors selectDocHandler={this.props.selectDocHandler}  token={this.props.token}/>} />  
-              {/* <Route path="/my-prescriptions" exact render={()=><patientsDB  />}/>    */}
-              <Route path="/appointments" exact render={()=><Appointments type={this.props.type} userId={this.props.userId}  token={this.props.token}/>} />  
+              <Route path="/appointments"  render={()=><Appointments type={this.props.type} userId={this.props.userId}  token={this.props.token}/>} />  
           
               </Switch>
               </Fragment>

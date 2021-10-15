@@ -57,8 +57,9 @@ box-sizing: border-box;
 }
 
 
-.InputElement textarea {
-height: 100px;
+.textarea {
+height: 150px;
+width: 100%;
 max-width: 100%;
 resize: none;
 outline: none;
@@ -66,7 +67,7 @@ border: 1px solid #ccc;
 background-color: white;
 font: inherit;
 padding: 6px 10px;
-display: block;
+
 
 
 box-sizing: border-box;

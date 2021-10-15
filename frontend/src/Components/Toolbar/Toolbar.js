@@ -4,7 +4,12 @@ import Navitem from './navItem/navItem';
 const Toolbar = (props)=>{
  
     let navs = null;
-
+    let logoutBtn = null;
+    if(props.isAuth)
+    {
+      logoutBtn=<button className="Btn" onClick={props.logout}>Logout</button>
+         
+    }
     if(props.type==="patient")
     {
 
@@ -40,7 +45,8 @@ const Toolbar = (props)=>{
         
         <Navitem 
         
-        link= '/my-appointments'
+        link= '/appointments'
+               
            
         >
        My Appointments      
@@ -60,7 +66,7 @@ const Toolbar = (props)=>{
   return(<header className="Toolbar">
  
      {navs}
-     
+     {logoutBtn}
     
     
   </header>)

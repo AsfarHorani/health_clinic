@@ -10,7 +10,7 @@ const treatmentSchema = new Schema({
       
     },
     
-    status:{
+    treatment:{
             type: String,
             req: true,
          

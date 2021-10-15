@@ -18,6 +18,25 @@
     height: 100%;
     color: white
 }
+   
+.Btn {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #69001a;
+    color: #69001a;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .Btn:hover,
+  .Btn:active {
+    background-color: #69001a;
+    color: white;
+  }
 
 
 

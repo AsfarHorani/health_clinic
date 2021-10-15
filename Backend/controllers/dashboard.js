@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Appt = require('../models/appointment');
+const Treatment = require('../models/treatment');
 
 exports.getActiveDoctors=(req,res,next)=>{
     
@@ -63,10 +64,12 @@ exports.postAppointment=(req,res,next)=>{
 }
 
 exports.getMyAppointments=(req,res,next)=>{
-   const userId = req.params.userId;
-   console.log(userId)
-   Appt.find({userId : userId}).then(appts=>{
-     console.log(appts)
+   const qUserId = req.params.userId;
+   console.log(req.query)
+   const query = req.query.type=='patient'? {  userId: qUserId} : {  doctId: qUserId};
+   console.log(query)
+   Appt.find(query).then(appts=>{
+ 
     if (!appts)
     {
         const error = new Error("coulnt find appointments");
@@ -85,6 +88,71 @@ exports.getMyAppointments=(req,res,next)=>{
      err.statusCode = 500;
    }
    next(err);
+})
+}
+
+
+exports.postTreatment=(req,res,next)=>{
+  const appId = req.body.apptId;
+  const trt = req.body.treatment;
+  console.log(appId, trt)
+  const treatment = new Treatment({
+    appointmentId : appId,
+    treatment: trt
+  })
+
+return  treatment.save()
+.then(resp=>{
+  console.log(resp)
+  res.status(200).json({
+    message:'post treatment successful',
+    treatment: resp
+})
+})
+.catch(err=>{
+  console.log(err)
+  if (!err.statusCode) {
+     err.statusCode = 500;
+   }
+   next(err);
+ })
+}
+
+exports.getMyPrescriptions=(req,res,next)=>{
+  const qUserId = req.params.userId;
+  console.log(req.query)
+  const query = req.query.type=='patient'? {  userId: qUserId} : {  doctId: qUserId};
+  console.log(query)
+  Appt.find(query).then(appts=>{
+
+   if (!appts)
+   {
+       const error = new Error("coulnt find appointments");
+       error.statusCode = 401;
+       throw error;
+   }
+   let apptArray=[]
+   appts.forEach(a=>{
+     console.log(a)
+     apptArray.push(a._id)
+   })
+ 
+   Treatment.find({
+     appointment :{$in: apptArray}
+   }).then(trts=>{
+     console.log(trts)
+     res.status(200).json({
+      prescriptions: trts,
+      message: "Get all prescriptions success!",
+})
+   })
+  
+  })  .catch(err=>{     
+   console.log(err)
+if (!err.statusCode) {
+    err.statusCode = 500;
+  }
+  next(err);
 })
 }
 
