@@ -24,7 +24,7 @@ const Doctors=(props)=>{
         }).catch(err=>{
             console.log(err)
         })
-    },[props])
+    },[props.token])
     console.log(doctors)
 
    let docs = null

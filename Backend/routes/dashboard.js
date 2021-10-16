@@ -7,4 +7,5 @@ router.post('/postAppointment',dashControllers.postAppointment);
 router.get('/getMyAppointments/:userId', dashControllers.getMyAppointments);
 router.post('/postTreatment',dashControllers.postTreatment);
 router.get('/getMyPrescriptions/:userId', dashControllers.getMyPrescriptions);
+router.get('/getPrescription/:apptId', dashControllers.getPrescription);
 module.exports = router;

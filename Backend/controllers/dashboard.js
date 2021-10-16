@@ -104,10 +104,21 @@ exports.postTreatment=(req,res,next)=>{
 return  treatment.save()
 .then(resp=>{
   console.log(resp)
+
+  Appt.findById(appId)
+  .then(ap=>{
+    ap.status = "finished"
+
+    return ap.save()
+  })
+ .then(udtAp=>{
   res.status(200).json({
     message:'post treatment successful',
-    treatment: resp
+    treatment: resp,
+    appointment: udtAp
 })
+ })
+
 })
 .catch(err=>{
   console.log(err)
@@ -120,10 +131,8 @@ return  treatment.save()
 
 exports.getMyPrescriptions=(req,res,next)=>{
   const qUserId = req.params.userId;
-  console.log(req.query)
-  const query = req.query.type=='patient'? {  userId: qUserId} : {  doctId: qUserId};
-  console.log(query)
-  Appt.find(query).then(appts=>{
+
+  Appt.find({doctId: qUserId}).then(appts=>{
 
    if (!appts)
    {
@@ -156,6 +165,32 @@ if (!err.statusCode) {
 })
 }
 
+exports.getPrescription=(req,res,next)=>{
+  const apptId = req.params.apptId
+  Treatment.findOne({appointmentId: apptId})
+  .then(trt=>{
+    if(!trt)
+    {
+      
+        const error = new Error("coulnt find yout treatment");
+        error.statusCode = 401;
+        throw error;
+    
+    }
+    console.log(trt)
+    res.status(200).json({
+      prescription: trt,
+      message: "Get treatment success!",
+})
+
+  }).catch(err=>{
+    console.log(err)
+    if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+  })
+}
 
 
 

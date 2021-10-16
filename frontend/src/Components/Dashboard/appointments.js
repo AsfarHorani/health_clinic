@@ -3,7 +3,11 @@ import './doctor.css'
 const Appointments=(props)=>{
    const [appointments,setAppointments] = useState([]);
    const[treatment,setTreatment]=useState(null);
-console.log(props.userId)
+   
+   console.log(props.userId)
+
+
+
     useEffect(()=>{
 
         console.log("component rerender.. [Apoointment]")
@@ -58,6 +62,36 @@ console.log(props.userId)
       })
     }
 
+  const getPrescription= async (pId)=>{
+    console.log(pId)
+    
+    try{
+   const res =await fetch(`http://localhost:8080/getPrescription/${pId}`);
+   const resData = res.json()
+   console.log(resData)
+   return resData;
+    }
+    catch(err){
+    console.log(err)
+    }
+    // fetch(`http://localhost:8080/getPrescription/${pId}`)
+    // .then(res=>{
+    //     if(res.status!==200 && res.status!==201)
+    //     {
+    //       throw new Error('get prescription failed')
+        
+    //     }
+    //     return res.json()
+    // }).then(resData=>{
+    //    console.log(resData)
+    //   pres = resData.prescription
+    //       console.log(pres)
+   
+    // }).catch(err=>{
+    //     console.log(err)
+    // })
+
+  }
 
    if(appointments!==null && appointments.length>0 && props.type==='patient'){
     appts = appointments.map(appointment=>( <li key={appointment._id} className='doctor'>
@@ -85,7 +119,24 @@ console.log(props.userId)
    }
 
   else if(appointments!==null && appointments.length>0 && props.type==='doctor'){
-    appts = appointments.map(appointment=>( <li key={appointment._id} className='doctor'>
+    appts = appointments.map(appointment=>{
+     let presElement =  <textarea   onChange={(e)=>setTreatment(e.target.value)} className="textarea" placeholder="Write prescription here..." />
+      
+      if(appointment.status==="finished")
+      {
+          const pres = getPrescription(appointment._id)
+         pres.then(res=>{
+           console.log(res.prescription.treatment)
+            presElement = <p>{res.prescription.treatment}</p>
+          
+          })
+          
+          
+          
+    
+      }
+     
+      return ( <li key={appointment._id} className='doctor'>
        <h3>
            Appointment ID - {appointment._id}
           
@@ -103,11 +154,13 @@ console.log(props.userId)
            Status  - {appointment.status}
           
        </h3>
-       <textarea   onChange={(e)=>setTreatment(e.target.value)} className="textarea" placeholder="Write prescription here..." />
+            {presElement}
         <button className="Btn" onClick={()=>postTreatment(appointment._id)} >Send presciption</button>
        </li>
  
-       )) 
+       )
+    }
+    ) 
    }
 
 
